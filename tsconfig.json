@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "public"
+  },
+  "include": [ "src/**/*" ],
+  "watchOptions": {
+    "watchDirectory": "usefsevents"
+  }
+}

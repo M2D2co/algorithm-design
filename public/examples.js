@@ -56,17 +56,19 @@ function consoleLog() {
 
 function bulkMeasure() {
   console.log('Starting bulkMeasure...', ITER, MAX_DATA)
-  const measure = { randomNumber: [], randomInt: [], arrayPush: [] }
+  const measure = { randomNumber: [], randomInt: [], arrayPushInt: [], arrayPushNum: [], fixedArrayNum: [] }
   const min = 10, max = 100
   for(let k = 0; k < ITER; k++) {
     console.log('Iteration', k)
     let a = [], start, end
+    // Number
     start = performance.now()
     for(let i = 0; i < MAX_DATA; i++) {
       a.push( Math.random() )
     }
     end = performance.now()
     measure.randomNumber.push(end - start)
+    // Int
     a = []
     start = performance.now()
     for(let i = 0; i < MAX_DATA; i++) {
@@ -74,15 +76,30 @@ function bulkMeasure() {
     }
     end = performance.now()
     measure.randomInt.push(end - start)
+    // arrayPushNum
     a = []
-    const rnd = Math.random()
     start = performance.now()
     for(let i = 0; i < MAX_DATA; i++) {
-      a.push( i )
-      // a.push( rnd )
+      a.push( 0.1 )
     }
     end = performance.now()
-    measure.arrayPush.push(end - start)
+    measure.arrayPushNum.push(end - start)
+    // arrayPushInt
+    a = []
+    start = performance.now()
+    for(let i = 0; i < MAX_DATA; i++) {
+      a.push( 123 )
+    }
+    end = performance.now()
+    measure.arrayPushInt.push(end - start)
+    // FixedArrayNum
+    const b = new Array(MAX_DATA)
+    start = performance.now()
+    for(let i = 0; i < MAX_DATA; i++) {
+      b[i] = 0.1
+    }
+    end = performance.now()
+    measure.fixedArrayNum.push(end - start)
   }
   const summary = {
     randomNumber: {
@@ -95,11 +112,31 @@ function bulkMeasure() {
       max: printMillis( Math.max(...measure.randomInt) ),
       avg: printMillis( avg(measure.randomInt) ),
     },
-    arrayPush: {
-      min: printMillis( Math.min(...measure.arrayPush) ),
-      max: printMillis( Math.max(...measure.arrayPush) ),
-      avg: printMillis( avg(measure.arrayPush) ),
+    arrayPushNum: {
+      min: printMillis( Math.min(...measure.arrayPushNum) ),
+      max: printMillis( Math.max(...measure.arrayPushNum) ),
+      avg: printMillis( avg(measure.arrayPushNum) ),
     },
+    arrayPushInt: {
+      min: printMillis( Math.min(...measure.arrayPushInt) ),
+      max: printMillis( Math.max(...measure.arrayPushInt) ),
+      avg: printMillis( avg(measure.arrayPushInt) ),
+    },
+    randNumMinusPushNum: {
+      min: printMillis( Math.min(...measure.randomNumber) -  Math.min(...measure.arrayPushNum)),
+      max: printMillis( Math.max(...measure.randomNumber) - Math.max(...measure.arrayPushNum)),
+      avg: printMillis( avg(measure.randomNumber) - avg(measure.arrayPushNum)),
+    },
+    randNumMinusPushInt: {
+      min: printMillis( Math.min(...measure.randomInt) - Math.min(...measure.arrayPushInt)),
+      max: printMillis( Math.max(...measure.randomInt) - Math.max(...measure.arrayPushInt)),
+      avg: printMillis( avg(measure.randomNumber) - avg(measure.arrayPushInt)),
+    },
+    fixedArrayNum: {
+      min: printMillis( Math.min(...measure.fixedArrayNum) ),
+      max: printMillis( Math.max(...measure.fixedArrayNum) ),
+      avg: printMillis( avg(measure.fixedArrayNum) ),
+    }
   }
   console.table(summary)
 }
