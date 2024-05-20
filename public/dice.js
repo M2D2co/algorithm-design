@@ -24,11 +24,16 @@ function stats2d6() {
     t = 0;
     start = performance.now();
     for (var d = 2; d <= 12; d++) {
+        t++;
         var count = 0;
+        t++;
         for (var i = 0; i < qty; i++) {
             t++;
-            if (results[i] === d)
+            if (results[i] === d) {
                 count++;
+                t++;
+            }
+            t++;
         }
         statsBruteForce.push({ value: d, count: count });
     }
@@ -43,10 +48,11 @@ function stats2d6() {
     for (var i = 2; i <= 12; i++) {
         t++;
         statsCount[i] = { value: i, count: 0 };
+        t++;
     }
     results.forEach(function (value) {
-        t++;
         statsCount[value].count++;
+        t++;
     });
     end = performance.now();
     var timeCount = end - start;
@@ -56,13 +62,15 @@ function stats2d6() {
     t = 0;
     start = performance.now();
     var statsReduce = results.reduce(function (acc, n) {
-        t++;
         if (!acc[n]) {
             acc[n] = { value: n, count: 1 };
+            t++;
         }
         else {
             acc[n].count++;
+            t++;
         }
+        t++;
         return acc;
     }, []);
     // const statsReduce: Counter[] = new Array(12+1)

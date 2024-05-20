@@ -29,10 +29,16 @@ function stats2d6(): void {
   t = 0
   start = performance.now()
   for(let d = 2; d <= 12; d++) {
+    t++
     let count = 0
+    t++
     for(let i = 0; i < qty; i++) {
       t++
-      if(results[i] === d) count++
+      if(results[i] === d) {
+        count++
+        t++
+      }
+      t++
     }
     statsBruteForce.push({ value: d, count })
   }
@@ -47,10 +53,11 @@ function stats2d6(): void {
   for(let i = 2; i <= 12; i++) {
     t++
     statsCount[i] = {value:i, count:0}
+    t++
   }
   results.forEach(value => {
-    t++
     statsCount[value].count++
+    t++
   })
   end = performance.now()
   const timeCount = end - start
@@ -60,12 +67,14 @@ function stats2d6(): void {
   t = 0
   start = performance.now()
   const statsReduce = results.reduce((acc: Counter[], n: number) => {
-    t++
     if(!acc[n]) {
       acc[n] = {value:n, count: 1}
+      t++
     } else {
       acc[n].count++
+      t++
     }
+    t++
     return acc
   }, [])
 
