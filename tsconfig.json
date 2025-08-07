@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "public"
+    "esModuleInterop": true,
+    "outDir": "public",
+    "resolveJsonModule": true
   },
   "include": [ "src/**/*" ],
   "watchOptions": {

@@ -101,6 +101,34 @@ function stats2d6(): void {
   console.log('Reduce', opsReduce, timeReduce.toFixed(3) + 'ms', memorySizeOf(statsReduce))
 }
 
+function rollManyDice() {
+  const qtyList = [10, 100, 1000, 10000, 100000, 1000000]
+  qtyList.forEach(qty => {
+    const results = new Array(qty)
+    let t = 0
+    // Roll Dice
+    for(let i = 0; i < qty; i++) {
+      results[i] = roll2d6(false)
+    }
+    console.time('roll-' + qty)
+    const stats = results.reduce((acc: Counter[], n: number) => {
+      if(!acc[n]) {
+        acc[n] = {value:n, count: 1}
+        t++
+      } else {
+        acc[n].count++
+        t++
+      }
+      t++
+      return acc
+    }, [])    
+    console.timeEnd('roll-' + qty)
+    console.log('memory', memorySizeOf(stats))
+    console.log('ops', t)
+  })
+
+}
+
 // Copied from https://gist.github.com/rajinwonderland/36887887b8a8f12063f1d672e318e12e
 function memorySizeOf(obj) {
   var bytes = 0;
