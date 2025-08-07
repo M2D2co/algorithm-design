@@ -1,3 +1,3 @@
 import data from './MOCK_DATA.json'
 
-data.map()
+data.map(rec => console.log(rec))
